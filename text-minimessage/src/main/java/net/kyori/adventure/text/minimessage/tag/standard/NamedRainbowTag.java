@@ -97,7 +97,21 @@ final class NamedRainbowTag extends AbstractColorChangingTag {
 
   @Override
   protected Consumer<TokenEmitter> preserveData() {
-    return null;
+    return emit -> {
+      emit.tag("rainbow");
+      if (!this.reversed) {
+        emit.flag("reverse", true);
+      }
+      if (this.hue != 0f) {
+        emit.namedArgument("phase", Integer.toString((int) this.hue * 10));
+      }
+      if (this.saturation != 1f) {
+        emit.namedArgument("saturation", Float.toString(this.saturation));
+      }
+      if (this.step != 0) {
+        emit.namedArgument("step", Integer.toString(this.step));
+      }
+    };
   }
 
   @Override
