@@ -7,6 +7,7 @@ import net.kyori.adventure.text.minimessage.internal.serializer.TokenEmitter;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.ArgumentQueue;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.kyori.adventure.util.HSVLike;
 import org.jspecify.annotations.Nullable;
 import java.util.function.Consumer;
 
@@ -17,14 +18,13 @@ final class NamedRainbowTag extends AbstractColorChangingTag {
   static final TagResolver RESOLVER = SerializableResolver.claimingComponent(RAINBOW, NamedRainbowTag::create, AbstractColorChangingTag::claimComponent);
 
   private final boolean reversed;
-  private final double dividedPhase;
+  private float hue;
   private final float saturation;
-  private final int step;
-
-  private int colorIndex = 0;
+  private int step;
+  private float hueStep = 0f;
 
   static Tag create(final ArgumentQueue args, final Context ctx) {
-    boolean reversed = args.flag("reversed").toBooleanOrElse(false);
+    boolean reversed = args.flag("reverse").toBooleanOrElse(false);
 
     int phase = 0;
     if (args.isPresent("phase")) {
@@ -68,24 +68,31 @@ final class NamedRainbowTag extends AbstractColorChangingTag {
   public NamedRainbowTag(boolean reversed, int phase, float saturation, int step, Context ctx) {
     super(ctx);
     this.reversed = reversed;
-    this.dividedPhase = phase / 10d;
+    this.hue = (phase % 10) / 10f;
     this.saturation = saturation;
     this.step = step;
   }
 
   @Override
   protected void init() {
-
+    if (this.step == 0) {
+      this.step = this.size();
+    }
+    this.hueStep = (this.reversed ? -1.0f : 1.0f) / this.step;
   }
 
   @Override
   protected void advanceColor() {
-
+    this.hue += hueStep;
+    this.hue %= 1f;
+    if (this.hue < 0f) {
+      this.hue += 1f;
+    }
   }
 
   @Override
   protected TextColor color() {
-    return null;
+    return TextColor.color(HSVLike.hsvLike(hue, saturation, 1.0f));
   }
 
   @Override
