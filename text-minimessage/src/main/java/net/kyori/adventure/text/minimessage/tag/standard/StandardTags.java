@@ -53,6 +53,7 @@ public final class StandardTags {
         FontTag.RESOLVER,
         DecorationTag.RESOLVER,
         GradientTag.RESOLVER,
+        NamedRainbowTag.RESOLVER,
         RainbowTag.RESOLVER,
         ResetTag.RESOLVER,
         NewlineTag.RESOLVER,
@@ -210,6 +211,16 @@ public final class StandardTags {
    */
   public static TagResolver rainbow() {
     return RainbowTag.RESOLVER;
+  }
+
+  /**
+   * Get a resolver for the {@value NamedRainbowTag#RAINBOW} tag with named arguments.
+   *
+   * @return a resolver for the {@value NamedRainbowTag#RAINBOW} tag.
+   * @since 5.1.0
+   */
+  public static TagResolver namedRainbow() {
+    return NamedRainbowTag.RESOLVER;
   }
 
   /**
