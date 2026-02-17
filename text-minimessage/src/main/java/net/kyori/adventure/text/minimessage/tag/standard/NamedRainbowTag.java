@@ -9,6 +9,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.ArgumentQueue;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.util.HSVLike;
 import org.jspecify.annotations.Nullable;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 final class NamedRainbowTag extends AbstractColorChangingTag {
@@ -116,17 +117,19 @@ final class NamedRainbowTag extends AbstractColorChangingTag {
 
   @Override
   public boolean equals(@Nullable Object other) {
-    return false;
+    if (this == other) return true;
+    if (!(other instanceof final NamedRainbowTag that)) return false;
+    return this.hue == that.hue && this.saturation == that.saturation && this.step == that.step;
   }
 
   @Override
   public int hashCode() {
-    return 0;
+    return Objects.hash(this.hue, this.saturation, this.step);
   }
 
   @Override
   public String toString() {
-    return "";
+    return "NamedRainbowTag{reversed=%b, hue=%f, saturation=%f, step=%d, hueStep=%f}"
+      .formatted(this.reversed, this.hue, this.saturation, this.step, this.hueStep);
   }
-
 }
