@@ -66,7 +66,7 @@ final class NamedRainbowTag extends AbstractColorChangingTag {
     return new NamedRainbowTag(reversed, phase, saturation, step, ctx);
   }
 
-  public NamedRainbowTag(boolean reversed, int phase, float saturation, int step, Context ctx) {
+  private NamedRainbowTag(boolean reversed, int phase, float saturation, int step, Context ctx) {
     super(ctx);
     this.reversed = reversed;
     this.hue = (phase % 10) / 10f;
