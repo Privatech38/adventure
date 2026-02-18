@@ -19,10 +19,10 @@ final class NamedRainbowTag extends AbstractColorChangingTag {
   static final TagResolver RESOLVER = SerializableResolver.claimingComponent(RAINBOW, NamedRainbowTag::create, AbstractColorChangingTag::claimComponent);
 
   private final boolean reversed;
-  private float hue;
+  private double hue;
   private final float saturation;
   private int step;
-  private float hueStep = 0f;
+  private double hueStep = 0f;
 
   static Tag create(final ArgumentQueue args, final Context ctx) {
     boolean reversed = args.flag("reverse").toBooleanOrElse(false);
@@ -69,7 +69,7 @@ final class NamedRainbowTag extends AbstractColorChangingTag {
   private NamedRainbowTag(boolean reversed, int phase, float saturation, int step, Context ctx) {
     super(ctx);
     this.reversed = reversed;
-    this.hue = (phase % 10) / 10f;
+    this.hue = (phase % 10) / 10d;
     this.saturation = saturation;
     this.step = step;
   }
@@ -79,21 +79,21 @@ final class NamedRainbowTag extends AbstractColorChangingTag {
     if (this.step == 0) {
       this.step = this.size();
     }
-    this.hueStep = (this.reversed ? -1.0f : 1.0f) / this.step;
+    this.hueStep = (this.reversed ? -1.0d : 1.0d) / this.step;
   }
 
   @Override
   protected void advanceColor() {
     this.hue += hueStep;
-    this.hue %= 1f;
-    if (this.hue < 0f) {
-      this.hue += 1f;
+    this.hue %= 1d;
+    if (this.hue < 0d) {
+      this.hue += 1d;
     }
   }
 
   @Override
   protected TextColor color() {
-    return TextColor.color(HSVLike.hsvLike(hue, saturation, 1.0f));
+    return TextColor.color(HSVLike.hsvLike((float) hue, saturation, 1.0f));
   }
 
   @Override
@@ -103,7 +103,7 @@ final class NamedRainbowTag extends AbstractColorChangingTag {
       if (!this.reversed) {
         emit.flag("reverse", true);
       }
-      if (this.hue != 0f) {
+      if (this.hue != 0d) {
         emit.namedArgument("phase", Integer.toString((int) this.hue * 10));
       }
       if (this.saturation != 1f) {
