@@ -80,6 +80,7 @@ final class NamedRainbowTag extends AbstractColorChangingTag {
       this.step = this.size();
     }
     this.hueStep = (this.reversed ? -1.0d : 1.0d) / this.step;
+    if (reversed) this.advanceColor();
   }
 
   @Override
