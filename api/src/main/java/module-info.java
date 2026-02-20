@@ -32,4 +32,5 @@ module net.kyori.adventure.api {
   exports net.kyori.adventure.title;
   exports net.kyori.adventure.translation;
   exports net.kyori.adventure.util;
+  exports net.kyori.adventure.waypoint;
 }
