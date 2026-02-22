@@ -23,44 +23,41 @@
  */
 package net.kyori.adventure.waypoint;
 
-import net.kyori.adventure.key.Key;
-import net.kyori.adventure.text.format.TextColor;
+import org.jetbrains.annotations.Contract;
 
-import static java.util.Objects.requireNonNull;
+/**
+ * Represents a chunk waypoint.
+ *
+ * @since 5.1.0
+ * @sinceMinecraft 1.21.6
+ */
+public sealed interface ChunkWaypoint extends Waypoint permits ChunkWaypointImpl {
 
-sealed class WaypointImpl implements Waypoint permits AzimuthWaypointImpl, ChunkWaypointImpl, VectorWaypointImpl {
+  /**
+   * Gets the X coordinate.
+   *
+   * @return the X coordinate
+   * @since 5.1.0
+   */
+  int x();
 
-  private Key style;
-  private TextColor color;
+  /**
+   * Gets the Z coordinate.
+   *
+   * @return the Z coordinate
+   * @since 5.1.0
+   */
+  int z();
 
-  WaypointImpl(final Key style, final TextColor color) {
-    this.style = requireNonNull(style, "style");
-    this.color = requireNonNull(color, "color");
-  }
+  /**
+   * Sets the X and Z coordinate.
+   *
+   * @param x the X coordinate
+   * @param z the Z coordinate
+   * @return the waypoint
+   * @since 5.1.0
+   */
+  @Contract("_, _ -> this")
+  ChunkWaypoint pos(final int x, final int z);
 
-  WaypointImpl(final TextColor color) {
-    this(Key.key("default"), color);
-  }
-
-  @Override
-  public Key style() {
-    return this.style;
-  }
-
-  @Override
-  public Waypoint style(final Key key) {
-    this.style = requireNonNull(key, "key");
-    return this;
-  }
-
-  @Override
-  public TextColor color() {
-    return this.color;
-  }
-
-  @Override
-  public Waypoint color(final TextColor color) {
-    this.color = requireNonNull(color, "color");
-    return this;
-  }
 }

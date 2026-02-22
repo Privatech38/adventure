@@ -23,44 +23,32 @@
  */
 package net.kyori.adventure.waypoint;
 
-import net.kyori.adventure.key.Key;
-import net.kyori.adventure.text.format.TextColor;
+import org.jetbrains.annotations.Contract;
 
-import static java.util.Objects.requireNonNull;
+/**
+ * Represents an azimuth waypoint.
+ *
+ * @since 5.1.0
+ * @sinceMinecraft 1.21.6
+ */
+public sealed interface AzimuthWaypoint extends Waypoint permits AzimuthWaypointImpl {
 
-sealed class WaypointImpl implements Waypoint permits AzimuthWaypointImpl, ChunkWaypointImpl, VectorWaypointImpl {
+  /**
+   * Gets the angle.
+   *
+   * @return the angle
+   * @since 5.1.0
+   */
+  float angle();
 
-  private Key style;
-  private TextColor color;
+  /**
+   * Sets the angle.
+   *
+   * @param angle the angle
+   * @return the waypoint
+   * @since 5.1.0
+   */
+  @Contract("_ -> this")
+  AzimuthWaypoint angle(final float angle);
 
-  WaypointImpl(final Key style, final TextColor color) {
-    this.style = requireNonNull(style, "style");
-    this.color = requireNonNull(color, "color");
-  }
-
-  WaypointImpl(final TextColor color) {
-    this(Key.key("default"), color);
-  }
-
-  @Override
-  public Key style() {
-    return this.style;
-  }
-
-  @Override
-  public Waypoint style(final Key key) {
-    this.style = requireNonNull(key, "key");
-    return this;
-  }
-
-  @Override
-  public TextColor color() {
-    return this.color;
-  }
-
-  @Override
-  public Waypoint color(final TextColor color) {
-    this.color = requireNonNull(color, "color");
-    return this;
-  }
 }

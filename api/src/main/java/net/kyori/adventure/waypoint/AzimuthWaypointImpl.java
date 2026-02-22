@@ -26,41 +26,28 @@ package net.kyori.adventure.waypoint;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.format.TextColor;
 
-import static java.util.Objects.requireNonNull;
+final class AzimuthWaypointImpl extends WaypointImpl implements AzimuthWaypoint {
 
-sealed class WaypointImpl implements Waypoint permits AzimuthWaypointImpl, ChunkWaypointImpl, VectorWaypointImpl {
+  private float angle;
 
-  private Key style;
-  private TextColor color;
-
-  WaypointImpl(final Key style, final TextColor color) {
-    this.style = requireNonNull(style, "style");
-    this.color = requireNonNull(color, "color");
+  AzimuthWaypointImpl(final Key style, final TextColor color, final float angle) {
+    super(style, color);
+    this.angle = angle;
   }
 
-  WaypointImpl(final TextColor color) {
-    this(Key.key("default"), color);
-  }
-
-  @Override
-  public Key style() {
-    return this.style;
+  AzimuthWaypointImpl(final TextColor color, final float angle) {
+    super(color);
+    this.angle = angle;
   }
 
   @Override
-  public Waypoint style(final Key key) {
-    this.style = requireNonNull(key, "key");
-    return this;
+  public float angle() {
+    return this.angle;
   }
 
   @Override
-  public TextColor color() {
-    return this.color;
-  }
-
-  @Override
-  public Waypoint color(final TextColor color) {
-    this.color = requireNonNull(color, "color");
+  public AzimuthWaypoint angle(final float angle) {
+    this.angle = angle;
     return this;
   }
 }

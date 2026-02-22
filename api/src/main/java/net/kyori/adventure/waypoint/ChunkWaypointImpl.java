@@ -26,41 +26,38 @@ package net.kyori.adventure.waypoint;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.format.TextColor;
 
-import static java.util.Objects.requireNonNull;
+final class ChunkWaypointImpl extends WaypointImpl implements ChunkWaypoint {
 
-sealed class WaypointImpl implements Waypoint permits AzimuthWaypointImpl, ChunkWaypointImpl, VectorWaypointImpl {
+  private int x;
+  private int z;
 
-  private Key style;
-  private TextColor color;
-
-  WaypointImpl(final Key style, final TextColor color) {
-    this.style = requireNonNull(style, "style");
-    this.color = requireNonNull(color, "color");
+  ChunkWaypointImpl(final Key style, final TextColor color, final int x, final int z) {
+    super(style, color);
+    this.x = x;
+    this.z = z;
   }
 
-  WaypointImpl(final TextColor color) {
-    this(Key.key("default"), color);
-  }
-
-  @Override
-  public Key style() {
-    return this.style;
+  ChunkWaypointImpl(final TextColor color, final int x, final int z) {
+    super(color);
+    this.x = x;
+    this.z = z;
   }
 
   @Override
-  public Waypoint style(final Key key) {
-    this.style = requireNonNull(key, "key");
+  public int x() {
+    return this.x;
+  }
+
+  @Override
+  public int z() {
+    return this.z;
+  }
+
+  @Override
+  public ChunkWaypoint pos(final int x, final int z) {
+    this.x = x;
+    this.z = z;
     return this;
   }
 
-  @Override
-  public TextColor color() {
-    return this.color;
-  }
-
-  @Override
-  public Waypoint color(final TextColor color) {
-    this.color = requireNonNull(color, "color");
-    return this;
-  }
 }
